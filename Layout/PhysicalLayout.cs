@@ -23,31 +23,28 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-using System;
 using System.Collections.Generic;
-using Smog.Physics;
-using Smog.Utils;
-namespace Smog.Layout
+using GraphUnfolding.Layout.Physics;
+using GraphUnfolding.Layout.Utils;
+
+namespace GraphUnfolding.Layout.Layout
 {
-	
 	/// <summary>
 	/// 	Represents a physical layout, i.e. a layout computed by
 	/// 	simulating a physical system composed by particles and springs.
 	/// </summary>
-	public interface PhysicalLayout<N, E> : GraphLayout<N, E>
-		where N: Node where E: Edge<N>
+	public interface IPhysicalLayout<TNode, TEdge> : IGraphLayout<TNode, TEdge>
+		where TNode: Node where TEdge: Edge<TNode>
 	{
-		
 		/// <summary>
 		/// 	The list of springs
 		/// </summary>
-		List<Spring<N, E>> Springs { get ; }
+		List<Spring<TNode, TEdge>> Springs { get ; }
 		
 		/// <summary>
 		/// 	The list of particles
 		/// </summary>
-		List<Particle<N>> Particles { get; }
-		
+		List<Particle<TNode>> Particles { get; }
 	}
 }
 

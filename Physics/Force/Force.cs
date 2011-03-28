@@ -23,24 +23,22 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-using System;
-using Smog.Layout;
-using Smog.Utils;
-namespace Smog.Physics.Force
+using GraphUnfolding.Layout.Layout;
+using GraphUnfolding.Layout.Utils;
+
+namespace GraphUnfolding.Layout.Physics.Force
 {
 	/// <summary>
 	/// 	Represents a force for a physical simulation
 	/// </summary>
-	public interface Force
+	public interface IForce
 	{
 		/// <summary>
 		/// 	Apply the force on the element of the layout.
 		/// </summary>
-		/// <param name="layout">
-		/// 	A <see cref="T:PhysicalLayout"/> represents the layout.
-		/// </param>
-		void Apply<S, T> (PhysicalLayout<S, T> layout)
-			where S: Node where T: Edge<S>;
+		/// <param name="layout">The layout.</param>
+		void Apply<TNode, TEdge> (IPhysicalLayout<TNode, TEdge> layout)
+			where TNode: Node where TEdge: Edge<TNode>;
 	}
 }
 

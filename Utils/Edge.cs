@@ -24,48 +24,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-
-namespace Smog.Utils
+namespace GraphUnfolding.Layout.Utils
 {
 	
 	/// <summary>
 	///		Represents a directed edge between two nodes
 	/// </summary>
-	public class Edge<S> where S: Node
+	public class Edge<TNode> where TNode: Node
 	{
+		/// <summary>
+		/// 	The source node of the edge
+		/// </summary>
+		public TNode Source  { get; private set; }
 		
 		/// <summary>
-		/// 	The head of the edge
+		/// 	The target node of the edge.
 		/// </summary>
-		public S Head  {
-			get;
-			private set;
-		}
+		public TNode Target  { get; private set; }
 		
 		/// <summary>
-		/// 	The tail of the edge.
+		/// 	Creates a new edge from <c>source</c> to <c>target</c>.
 		/// </summary>
-		public S Tail  {
-			get;
-			private set;
-		}
-		
-		/// <summary>
-		/// 	Creates a new edge from <c>head</c> to <c>tail</c>.
-		/// </summary>
-		/// <param name="head">
-		/// 	A <see cref="S"/> representing the head of the edge.
+		/// <param name="source">
+		/// 	A node representing the source of the edge.
 		/// </param>
-		/// <param name="tail">
-		/// 	A <see cref="S"/> representing the tail of the edge.
+		/// <param name="target">
+		/// 	A node representing the target of the edge.
 		/// </param>
-		public Edge (S head, S tail)
+		public Edge (TNode source, TNode target)
 		{
-			this.Head = head;
-			this.Tail = tail;
+			Source = source;
+			Target = target;
 		}
-		
 	}
 }
 

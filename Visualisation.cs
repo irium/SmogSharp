@@ -23,13 +23,14 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 using System;
-using Smog.Layout;
-using Smog.Utils;
 using System.Collections.Generic;
-namespace Smog
+using GraphUnfolding.Layout.Layout;
+using GraphUnfolding.Layout.Utils;
+
+namespace GraphUnfolding.Layout
 {
-	
 	/// <summary>
 	/// 	Represents an event handler called when the visualisation
 	/// 	starts.
@@ -56,24 +57,17 @@ namespace Smog
 	/// <summary>
 	/// 	Represents a visualisation
 	/// </summary>
-	public class Visualisation<N, E>
-		where N: Node where E: Edge<N>
+	public class Visualisation<TNode, TEdge> where TNode: Node where TEdge: Edge<TNode>
 	{
 		/// <summary>
 		/// 	The edges of the graph.
 		/// </summary>
-		public List<E> Edges  {
-			get;
-			private set;
-		}
+		public List<TEdge> Edges  { get; private set; }
 		
 		/// <summary>
 		/// 	The nodes of the graph.
 		/// </summary>
-		public List<N> Nodes {
-			get;
-			private set;
-		}
+		public List<TNode> Nodes { get; private set; }
 		
 		/// <summary>
 		/// 	The event raised when visualisation starts.
@@ -104,38 +98,41 @@ namespace Smog
 		/// </param>
 		protected virtual void OnStarted(EventArgs e)
 		{
-			if (Started != null) {
-				Started(this, e);
-			}
+		    if (Started != null)
+		    {
+		        Started(this, e);
+		    }
 		}
-				
-		/// <summary>
-		/// 	Raise <c>Stopped</c> event.
-		/// </summary>
-		/// <param name="e">
-		/// 	A <see cref="EventArgs"/> representing the args of 
-		/// 	the visualisation.
-		/// </param>
-		protected virtual void OnStopped(EventArgs e)
-		{
-			if (Stopped != null) {
-				Stopped(this, e);
-			}
-		}		
-		
-		/// <summary>
-		/// 	Raise <c>Interrupted</c> event.
-		/// </summary>
-		/// <param name="e">
-		/// 	A <see cref="EventArgs"/> representing the args of 
-		/// 	the visualisation.
-		/// </param>
-		protected virtual void OnInterrupted(EventArgs e)
-		{
-			if (Interrupted != null) {
-				Interrupted(this, e);
-			}
-		}
+
+	    /// <summary>
+	    /// 	Raise <c>Stopped</c> event.
+	    /// </summary>
+	    /// <param name="e">
+	    /// 	A <see cref="EventArgs"/> representing the args of 
+	    /// 	the visualisation.
+	    /// </param>
+	    protected virtual void OnStopped(EventArgs e)
+	    {
+	        if (Stopped != null)
+	        {
+	            Stopped(this, e);
+	        }
+	    }
+
+	    /// <summary>
+	    /// 	Raise <c>Interrupted</c> event.
+	    /// </summary>
+	    /// <param name="e">
+	    /// 	A <see cref="EventArgs"/> representing the args of 
+	    /// 	the visualisation.
+	    /// </param>
+	    protected virtual void OnInterrupted(EventArgs e)
+	    {
+	        if (Interrupted != null)
+	        {
+	            Interrupted(this, e);
+	        }
+	    }
 		
 		/// <summary>
 		/// 	Raise <c>Changed</c> event.
@@ -144,28 +141,23 @@ namespace Smog
 		/// 	A <see cref="EventArgs"/> representing the args of 
 		/// 	the visualisation.
 		/// </param>
-		protected virtual void OnChanged(EventArgs e) 
+		protected virtual void OnChanged(EventArgs e)
 		{
-			if (Changed != null) {
-				Changed(this, e);
-			}
+		    if (Changed != null)
+		    {
+		        Changed(this, e);
+		    }
 		}
-		
-		/// <summary>
-		/// 	Represents the time step used for the simulation.
-		/// </summary>
-		public double TimeStep  {
-			get;
-			private set;
-		}
-		
-		/// <summary>
-		/// 	The layout used for the visualisation
-		/// </summary>
-		public GraphLayout<N, E> Layout {
-			get;
-			private set;
-		}
+
+	    /// <summary>
+	    /// 	Represents the time step used for the simulation.
+	    /// </summary>
+	    public double TimeStep { get; private set; }
+
+	    /// <summary>
+	    /// 	The layout used for the visualisation
+	    /// </summary>
+	    public IGraphLayout<TNode, TEdge> Layout { get; private set; }
 		
 		/// <summary>
 		/// 	Creates a new visualisation with the given layout.
@@ -174,18 +166,18 @@ namespace Smog
 		/// 	A <see cref="T:Smog.GraphLayout"/> representing the layout
 		/// 	to use for the visualisation.
 		/// </param>
-		public Visualisation (GraphLayout<N, E> layout)
+		public Visualisation(IGraphLayout<TNode, TEdge> layout)
 		{
 			Layout = layout;
 			TimeStep = .5;
-			Nodes = new List<N>();
-			Edges = new List<E>();
+			Nodes = new List<TNode>();
+			Edges = new List<TEdge>();
 		}
 		
 		/// <summary>
 		/// 	Initializes the visualisation.
 		/// </summary>
-		public void Init ()
+		public void Init()
 		{
 			Layout.Init(Nodes.ToArray(), Edges.ToArray());
 			OnStarted(EventArgs.Empty);
@@ -194,7 +186,7 @@ namespace Smog
 		/// <summary>
 		/// 	Terminates the visualisation.
 		/// </summary>
-		public void Terminate ()
+		public void Terminate()
 		{
 			Layout.Terminate();
 			OnStopped(EventArgs.Empty);
@@ -204,10 +196,10 @@ namespace Smog
 		/// 	Runs the visualisation for a step.
 		/// </summary>
 		/// <returns>
-		/// 	A <see cref="T:System.Boolean"/> representing wheter the
+		/// 	A <see cref="System.Boolean"/> representing wheter the
 		/// 	visualisation ended.
 		/// </returns>
-		public bool StepRun ()
+		public bool StepRun()
 		{
 			bool result = Layout.ComputeNextStep(TimeStep);
 			OnChanged(EventArgs.Empty);
@@ -220,8 +212,7 @@ namespace Smog
 		public void BatchRun()
 		{
 			Init();
-			while(StepRun()) {
-			}
+			while(StepRun()) {}
 			Terminate();
 		}
 		

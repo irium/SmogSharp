@@ -23,81 +23,54 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-using System;
-namespace Smog.Physics
+namespace GraphUnfolding.Layout.Physics
 {
-	
 	/// <summary>
 	/// 	Represents a particle which is a punctual mass with a position
 	/// 	and a speed. Forces can be applied to particle. These are null by
 	/// 	default.
 	/// </summary>
-	public class Particle<S>
+	public class Particle<TNode>
 	{
-		
 		/// <summary>
 		/// 	The x-coordinate of the particle
 		/// </summary>
-		public double X  {
-			get;
-			set;
-		}
+		public double X  { get; set; }
 		
 		/// <summary>
 		/// 	The y-coordinate of the particle
 		/// </summary>
-		public double Y  {
-			get;
-			set;
-		}
+		public double Y  { get; set; }
 		
 		/// <summary>
 		/// 	The speed along the x-axis
 		/// </summary>
-		public double XSpeed  {
-			get;
-			set;
-		}
+		public double XSpeed  { get; set; }
 		
 		/// <summary>
 		/// 	The speed along the y-axis
 		/// </summary>
-		public double YSpeed  {
-			get;
-			set;
-		}
+		public double YSpeed  { get; set; }
 		
 		/// <summary>
 		/// 	The force applied to the particle along the x-axis.
 		/// </summary>
-		public double XForce  {
-			get;
-			set;
-		}
+		public double XForce  { get; set; }
 		
 		/// <summary>
 		/// 	The force applied to the particle along the y-axis.
 		/// </summary>
-		public double YForce  {
-			get;
-			set;
-		}
+		public double YForce  { get; set; }
 		
 		/// <summary>
 		/// 	The mass of the particle
 		/// </summary>
-		public double Mass  {
-			get;
-			private set;
-		}
+		public double Mass  { get; private set; }
 		
 		/// <summary>
 		/// 	A tag to attach elements to the particle.
 		/// </summary>
-		public S Value  {
-			get;
-			set;
-		}
+		public TNode Value  { get; set; }
 		
 		/// <summary>
 		/// 	Creates a new particle, centered at (0, 0) with null speed 

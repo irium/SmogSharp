@@ -23,30 +23,22 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+using GraphUnfolding.Layout.Utils;
 
-using System;
-using Smog.Utils;
-
-namespace Smog.Layout
+namespace GraphUnfolding.Layout.Layout
 {
-	
 	/// <summary>
 	/// 	Represents an algorithm to draw graph
 	/// </summary>
-	public interface GraphLayout<N, E> where N: Node where E: Edge<N>
+	public interface IGraphLayout<in TNode, in TEdge> where TNode: Node where TEdge: Edge<TNode>
 	{
-		
 		/// <summary>
 		/// 	Initializes the algorithm by setting proper value to nodes and
 		/// 	springs for the algorithm to start.
 		/// </summary>
-		/// <param name="nodes">
-		/// A <see cref="N[]"/> representing the nodes of the graph.
-		/// </param>
-		/// <param name="edges">
-		/// A <see cref="E[]"/> representing the edges of the graph
-		/// </param>
-		void Init (N[] nodes, E[] edges);
+		/// <param name="nodes">The nodes of the graph.</param>
+		/// <param name="edges">/// The edges of the graph.</param>
+		void Init (TNode[] nodes, TEdge[] edges);
 		
 		/// <summary>
 		/// 	Terminates the algorithm.
@@ -59,7 +51,6 @@ namespace Smog.Layout
 		/// 	whether there are more steps to do.
 		/// </summary>
 		bool ComputeNextStep(double timeStep);	
-		
 	}
 }
 

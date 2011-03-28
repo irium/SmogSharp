@@ -24,40 +24,39 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using Smog.Utils;
-namespace Smog.Physics.Force
+using GraphUnfolding.Layout.Layout;
+using GraphUnfolding.Layout.Utils;
+
+namespace GraphUnfolding.Layout.Physics.Force
 {
 	/// <summary>
 	/// 	Represents the force of repulsion between particles. This
 	/// 	is simulating the coulomb force.
 	/// </summary>
-	public class RepulsionForce : Force
+	public class RepulsionForce : IForce
 	{
 		/// <summary>
-		/// 	See <see cref="M:Smog.Force.Apply(PhysicalLayout)"/>.
+		/// 	See <see cref="IForce.Apply{TNode,TEdge}"/>.
 		/// </summary>
-		/// <param name="l">
-		/// 	A <see cref="T:Layout.PhysicalLayout"/> representing
-		/// 	the layout.
-		/// </param>
-		public void Apply<S, T> (Layout.PhysicalLayout<S, T> l)
+		/// <param name="layout">The layout.</param>
+		public void Apply<S, T> (IPhysicalLayout<S, T> layout)
 			where S: Node where T: Edge<S>
 		{
-			foreach (Particle<S> p in l.Particles) {
-				foreach (Particle<S> p2 in l.Particles) {
-					if (p != p2) {
-						double dx = p.X - p2.X;
-						double dy = p.Y - p2.Y;
-						double d = Math.Sqrt(dx*dx + dy*dy);
-						double dd = d < 1 ? 1 : d;
-						double ke = .05;
-						double q1 = 1;
-						double q2 = 1;
-						double F = (ke * q1 * q2) / dd * dd;
+			foreach (var p in layout.Particles) {
+				foreach (var p2 in layout.Particles) {
+				    if (p == p2) continue;
+
+				    double dx = p.X - p2.X;
+				    double dy = p.Y - p2.Y;
+				    double d = Math.Sqrt(dx*dx + dy*dy);
+				    double dd = d < 1 ? 1 : d;
+				    double ke = .05;
+				    double q1 = 1;
+				    double q2 = 1;
+				    double F = (ke * q1 * q2) / dd * dd;
 						
-						p.XForce += F * dx / dd;
-						p.YForce += F * dy / dd;
-					}
+				    p.XForce += F * dx / dd;
+				    p.YForce += F * dy / dd;
 				}
 			}
 		}

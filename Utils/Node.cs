@@ -26,15 +26,13 @@
 
 using System;
 
-namespace Smog.Utils
+namespace GraphUnfolding.Layout.Utils
 {
-	
 	/// <summary>
 	/// 	Represents a node in the graph.
 	/// </summary>
 	public class Node
 	{
-		
 		/// <summary>
 		/// 	The value contained in the node.
 		/// </summary>
@@ -43,7 +41,7 @@ namespace Smog.Utils
 		/// <summary>
 		/// 	The weight of the node.
 		/// </summary>
-		public double Weight = 1;
+		public double Weight { get; set; }
 		
 		/// <summary>
 		/// 	Creates a new node for the given value.
@@ -54,6 +52,7 @@ namespace Smog.Utils
 		public Node (Object val)
 		{
 			Value = val;
+		    Weight = 1;
 		}
 		
 		/// <summary>
@@ -65,9 +64,8 @@ namespace Smog.Utils
 		/// <param name="weight">
 		/// 	A <see cref="T:System.Double"/> representing the weight of the node.
 		/// </param>
-		public Node (Object val, double weight)
+		public Node (Object val, double weight) : this(val)
 		{
-			Value = val;
 			Weight = weight;
 		}
 	}
